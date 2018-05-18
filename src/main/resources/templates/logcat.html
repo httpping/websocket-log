@@ -6,6 +6,8 @@
     <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
     <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <!-- Bootstrap -->
+
 </head>
 <body>
 <button onclick="openSocket()">开启日志</button><button onclick="closeSocket()">关闭日志</button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户过滤id:<input type="text"  id="user_id" value="" onchange="userIdChange()"/>
@@ -13,7 +15,6 @@
 <div id="log-container" style="height: 880px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
     <div></div>
 </div>
-
 <script>
     var stompClient = null;
     $(document).ready(function() {openSocket();});
