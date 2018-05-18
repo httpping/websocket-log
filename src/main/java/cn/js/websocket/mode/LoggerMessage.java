@@ -11,15 +11,12 @@ public class LoggerMessage{
     public String threadName;
     public String className;
     public String level;
+    public String userId;
 
-    public LoggerMessage(String body, String timestamp, String threadName, String className, String level) {
-        this.body = body;
-        this.timestamp = timestamp;
-        this.threadName = threadName;
-        this.className = className;
-        this.level = level;
-    }
 
     public LoggerMessage() {
     }
+
+
+
 }
