@@ -11,19 +11,39 @@
 </head>
 <body>
 <button onclick="openSocket()">开启日志</button><button onclick="closeSocket()">关闭日志</button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户过滤id:<input type="text"  id="user_id" value="" onchange="userIdChange()"/>
+<input type="checkbox"  id="android"  onchange="levelChange()"> android </input>  &nbsp;&nbsp;
+<input type="checkbox"  id="ios"  onchange="levelChange()">ios</input>
+
 <hr/>
 <div id="log-container" style="height: 880px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
     <div></div>
 </div>
 <script>
     var stompClient = null;
-    $(document).ready(function() {openSocket();});
+    $(document).ready(function() {
+        openSocket();
+    });
 
-    //通过key来获取value
-    var dt = sessionStorage.getItem("user_id");
-    $("#user_id").val(dt);
+    $("#android").ready(function() {
+        //通过key来获取value
+        var dt = sessionStorage.getItem("user_id");
+        $("#user_id").val(dt);
+
+        var ios = sessionStorage.getItem("level_ios")
+        var android = sessionStorage.getItem("level_android")
+        if (ios == 'true'){
+            $('#ios').prop('checked',true);
+        }
+        if (android == 'true'){
+            $('#android').prop('checked',true);
+        }
+    });
+
+
 
     function openSocket() {
+        /*<![CDATA[*/
+
         if(stompClient==null){
             var socket = new SockJS('/websocket?token=kl');
             stompClient = Stomp.over(socket);
@@ -33,6 +53,27 @@
 
                     var content=JSON.parse(event.body);
 
+
+                    var ios = $('#ios').is(":checked");
+                    var android = $('#android').is(":checked");
+
+
+                    if(ios && android){
+                        //todo
+                    }else{
+                        if (ios) {
+                            if (content.level.toLowerCase().indexOf("ios") < 0) {
+                                return;
+                            }
+                        }
+                        if (android){
+                            if (content.level.toLowerCase().indexOf("android") < 0) {
+                                return;
+                            }
+                        }
+
+                    }
+                    // alert(ios +" -" + android )
                     var user_id_val = $("#user_id").val(); //获取
                      if (!isNull(user_id_val)){
                         if ( user_id_val != content.userId){
@@ -47,6 +88,8 @@
                 });
             });
         }
+        /*]]>*/
+
     }
     function closeSocket() {
         if (stompClient != null) {
@@ -64,6 +107,20 @@
         var user_id_val = $("#user_id").val(); //获取
         //添加key-value 数据到 sessionStorage
         sessionStorage.setItem("user_id", user_id_val);
+    }
+    function levelChange() {
+        var user_id_val = $("#user_id").val(); //获取
+        //添加key-value 数据到 sessionStorage
+        sessionStorage.setItem("user_id", user_id_val);
+
+
+        var ios = $('#ios').is(":checked");
+        var android = $('#android').is(":checked");
+
+        sessionStorage.setItem("level_ios", ios);
+        sessionStorage.setItem("level_android", android);
+
+
     }
 </script>
 </body>
