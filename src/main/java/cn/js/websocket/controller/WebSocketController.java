@@ -48,7 +48,7 @@ public class WebSocketController {
     @RequestMapping("/pullLogcat")
     @ResponseBody
     public String logCat(@RequestBody LoggerMessage logcat){
-        System.out.println(logcat.body);
+//        System.out.println(logcat.body);
         simpMessagingTemplate.convertAndSend(topic,logcat);
 
         return  "success";
