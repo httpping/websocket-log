@@ -12,7 +12,7 @@ public class LoggerMessage{
     public String className;
     public String level;
     public String userId;
-
+    public String response;
 
     public LoggerMessage() {
     }

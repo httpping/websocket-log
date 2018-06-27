@@ -7,7 +7,69 @@
     <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
     <!-- Bootstrap -->
+     <link rel="stylesheet" href="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css" />
+     <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+     <script type="text/javascript" src="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.js"></script>
 
+    <style>
+        .jsonview {
+            font-family: monospace;
+            font-size: 1.1em;
+            white-space: pre-wrap; }
+        .jsonview .prop {
+            font-weight: bold;
+            text-decoration: none;
+            color: #A8B6C5; }
+        .jsonview .null {
+            color: #A8B6C5; }
+        .jsonview .undefined {
+            color: #A8B6C5; }
+        .jsonview .bool {
+            color: #A8B6C5; }
+        .jsonview .num {
+            color: #A8B6C5; }
+        .jsonview .string {
+            color: #A8B6C5;
+            white-space: pre-wrap; }
+        .jsonview .string.multiline {
+            display: inline-block;
+            vertical-align: text-top; }
+        .jsonview .collapser {
+            position: absolute;
+            left: -1em;
+            cursor: pointer; }
+        .jsonview .collapsible {
+            transition: height 1.2s;
+            transition: width 1.2s; }
+        .jsonview .collapsible.collapsed {
+            height: .8em;
+            width: 1em;
+            display: inline-block;
+            overflow: hidden;
+            margin: 0; }
+        .jsonview .collapsible.collapsed:before {
+            content: "…";
+            width: 1em;
+            margin-left: .2em; }
+        .jsonview .collapser.collapsed {
+            transform: rotate(0deg); }
+        .jsonview .q {
+            display: inline-block;
+            width: 0px;
+            color: transparent; }
+        .jsonview li {
+            position: relative; }
+        .jsonview ul {
+            list-style: none;
+            margin: 0 0 0 2em;
+            padding: 0; }
+        .jsonview h1 {
+            font-size: 1.2em; }
+
+        a{
+            color:#AE8ABE;
+        }
+    </style>
 </head>
 <body>
 <button onclick="openSocket()">开启日志</button><button onclick="closeSocket()">关闭日志</button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户过滤id:<input type="text"  id="user_id" value="" onchange="userIdChange()"/>
@@ -82,6 +144,14 @@
                     }
                     $("#log-container div").append(" ------ " + content.level + " : " + content.timestamp +" ------ ").append("<br/>");
                     $("#log-container div").append(content.body).append("<br/>");
+                    var ID = 'json_' + guid();
+
+                    var jsonView = "<div id='"+ID+"'></div>"
+                    $("#log-container div").append(content.body).append("<br/>");
+                    $("#log-container div").append(jsonView).append("<br/>");
+                    $('#'+ID).JSONView(content.response);
+                    $('#'+ID).JSONView('toggle', 1);
+
                     $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());
                 },{
                     token:"kltoen"
@@ -91,6 +161,15 @@
         /*]]>*/
 
     }
+
+    //用于生成uuid
+    function S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    }
+    function guid() {
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    }
+
     function closeSocket() {
         if (stompClient != null) {
             stompClient.disconnect();

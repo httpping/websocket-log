@@ -1,18 +1,18 @@
 package cn.js.websocket.controller;
 
 import cn.js.websocket.mode.LoggerMessage;
-import cn.js.websocket.mode.RequestBean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
+
+@Slf4j
 @Controller
 public class WebSocketController {
 
@@ -49,6 +49,8 @@ public class WebSocketController {
     @ResponseBody
     public String logCat(@RequestBody LoggerMessage logcat){
 //        System.out.println(logcat.body);
+//        log(logcat.body);
+        log.info(logcat.body);
         simpMessagingTemplate.convertAndSend(topic,logcat);
 
         return  "success";
