@@ -11,6 +11,7 @@ public class LoggerMessage{
     public String threadName;
     public String className;
     public String level;
+    public String platform;
     public String userId;
 
 

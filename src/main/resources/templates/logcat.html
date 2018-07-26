@@ -13,6 +13,7 @@
 <button onclick="openSocket()">开启日志</button><button onclick="closeSocket()">关闭日志</button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户过滤id:<input type="text"  id="user_id" value="" onchange="userIdChange()"/>
 <input type="checkbox"  id="android"  onchange="levelChange()"> android </input>  &nbsp;&nbsp;
 <input type="checkbox"  id="ios"  onchange="levelChange()">ios</input>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 平台过滤:<input type="text"  id="platform_name" value="" onchange="plfatformChange()"/>
 
 <hr/>
 <div id="log-container" style="height: 880px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
@@ -28,6 +29,9 @@
         //通过key来获取value
         var dt = sessionStorage.getItem("user_id");
         $("#user_id").val(dt);
+
+        var platform = sessionStorage.getItem("platform_name");
+        $("#platform_name").val(platform);
 
         var ios = sessionStorage.getItem("level_ios")
         var android = sessionStorage.getItem("level_android")
@@ -80,6 +84,14 @@
                             return ;
                         }
                     }
+
+                    var platform_name = $("#platform_name").val(); //获取
+                    if (!isNull(platform_name)){
+                        if ( platform_name != content.platform){
+                            return ;
+                        }
+                    }
+
                     $("#log-container div").append(" ------ " + content.level + " : " + content.timestamp +" ------ ").append("<br/>");
                     $("#log-container div").append(content.body).append("<br/>");
                     $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());
@@ -108,6 +120,13 @@
         //添加key-value 数据到 sessionStorage
         sessionStorage.setItem("user_id", user_id_val);
     }
+
+    function plfatformChange() {
+        var platform = $("#platform_name").val(); //获取
+        //添加key-value 数据到 sessionStorage
+        sessionStorage.setItem("platform_name", platform);
+    }
+
     function levelChange() {
         var user_id_val = $("#user_id").val(); //获取
         //添加key-value 数据到 sessionStorage
