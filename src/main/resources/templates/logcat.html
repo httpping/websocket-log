@@ -14,6 +14,7 @@
 <input type="checkbox"  id="android"  onchange="levelChange()"> android </input>  &nbsp;&nbsp;
 <input type="checkbox"  id="ios"  onchange="levelChange()">ios</input>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 平台过滤:<input type="text"  id="platform_name" value="" onchange="plfatformChange()"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 关键字过滤:<input type="text"  id="url_path" value="" onchange="urlChange()"/>
 
 <hr/>
 <div id="log-container" style="height: 880px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
@@ -32,6 +33,9 @@
 
         var platform = sessionStorage.getItem("platform_name");
         $("#platform_name").val(platform);
+
+        var url_path = sessionStorage.getItem("url_path");
+        $("#url_path").val(url_path);
 
         var ios = sessionStorage.getItem("level_ios")
         var android = sessionStorage.getItem("level_android")
@@ -91,6 +95,13 @@
                             return ;
                         }
                     }
+                    var url_path = sessionStorage.getItem("url_path");
+                    if (!isNull(url_path)){
+                        if (content.body.indexOf(url_path) < 0){
+                            return ;
+                        }
+                    }
+
 
                     $("#log-container div").append(" ------ " + content.level + " : " + content.timestamp +" ------ ").append("<br/>");
                     $("#log-container div").append(content.body).append("<br/>");
@@ -126,6 +137,13 @@
         //添加key-value 数据到 sessionStorage
         sessionStorage.setItem("platform_name", platform);
     }
+
+    function urlChange() {
+        var url_path = $("#url_path").val(); //获取
+        //添加key-value 数据到 sessionStorage
+        sessionStorage.setItem("url_path", url_path);
+    }
+
 
     function levelChange() {
         var user_id_val = $("#user_id").val(); //获取
