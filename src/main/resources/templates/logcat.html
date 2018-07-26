@@ -11,9 +11,9 @@
 </head>
 <body>
 <button onclick="openSocket()">开启日志</button><button onclick="closeSocket()">关闭日志</button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户过滤id:<input type="text"  id="user_id" value="" onchange="userIdChange()"/>
-<input type="checkbox"  id="android"  onchange="levelChange()"> android </input>  &nbsp;&nbsp;
+<input type="checkbox"  id="android" checked="checked"  onchange="levelChange()"> android </input>  &nbsp;&nbsp;
 <input type="checkbox"  id="ios"  onchange="levelChange()">ios</input>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 平台过滤:<input type="text"  id="platform_name" value="" onchange="plfatformChange()"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 平台过滤:<input type="text"  id="platform_name" onchange="plfatformChange()"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 关键字过滤:<input type="text"  id="url_path" value="" onchange="urlChange()"/>
 
 <hr/>
@@ -33,6 +33,10 @@
 
         var platform = sessionStorage.getItem("platform_name");
         $("#platform_name").val(platform);
+
+        // if (isNull(platform)){
+        //     $("#platform_name").val("DL");
+        // }
 
         var url_path = sessionStorage.getItem("url_path");
         $("#url_path").val(url_path);
