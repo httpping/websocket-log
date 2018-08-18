@@ -10,7 +10,9 @@
 
 </head>
 <body>
-<button onclick="openSocket()">开启日志</button><button onclick="closeSocket()">关闭日志</button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户过滤id:<input type="text"  id="user_id" value="" onchange="userIdChange()"/>
+<button onclick="openSocket()">开启日志</button><button onclick="closeSocket()">关闭日志</button>  &nbsp;&nbsp;
+<button onclick="clearLog()">清除日志</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户过滤id:<input type="text"  id="user_id" value="" onchange="userIdChange()"/>
 <input type="checkbox"  id="android" checked="checked"  onchange="levelChange()"> android </input>  &nbsp;&nbsp;
 <input type="checkbox"  id="ios"  onchange="levelChange()">ios</input>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 平台过滤:<input type="text"  id="platform_name" onchange="plfatformChange()"/>
@@ -101,7 +103,7 @@
                     }
                     var url_path = sessionStorage.getItem("url_path");
                     if (!isNull(url_path)){
-                        if (content.body.indexOf(url_path) < 0){
+                        if (content.body.toLowerCase().indexOf(url_path.toLowerCase()) < 0){
                             return ;
                         }
                     }
@@ -125,7 +127,12 @@
         }
     }
 
-    function isNull(data){
+
+    function clearLog() {
+        $("#log-container div").empty();
+    }
+
+        function isNull(data){
         return (data == "" || data == undefined || data == null) ? true : false;
     }
 
